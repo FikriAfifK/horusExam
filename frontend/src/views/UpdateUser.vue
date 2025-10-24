@@ -6,15 +6,15 @@
       <div v-else>
           <div class="form-group">
               <label for="nama">Nama Lengkap:</label>
-              <input id="nama" v-model="nama" />
+              <input id="nama" v-model="nama" @keyup.enter="updateUser" />
           </div>
           <div class="form-group">
               <label for="email">Email:</label>
-              <input id="email" v-model="email" />
+              <input id="email" v-model="email" @keyup.enter="updateUser" />
           </div>
           <div class="form-group">
               <label for="username">Username:</label>
-              <input id="username" v-model="username" />
+              <input id="username" v-model="username" @keyup.enter="updateUser" />
           </div>
           <div class="buttons">
               <button @click="updateUser">Update</button>
@@ -54,6 +54,8 @@ onMounted(async () => {
 
 const updateUser = async () => {
   try {
+    if (!/\S+@\S+\.\S+/.test(email.value))
+      return alert("Format email tidak valid!")
     await api.put(`/users/${id}`, {
       nama: nama.value,
       email: email.value,
